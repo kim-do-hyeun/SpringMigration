@@ -13,11 +13,14 @@ import java.util.List;
 
 
 public class CsvStudents implements Students {
-    private List<Integer> seq = new ArrayList<>();
-    private List<String> name = new ArrayList<>();
+    private List<Student> students = new ArrayList<>();
     private static CsvStudents csvStudents = null;
 
-    private CsvStudents(){}
+    public CsvStudents(){}
+
+    public List<Student> getStudents() {
+        return students;
+    }
 
     /** TODO 3 :
      * Java Singleton 패턴으로 getInstance() 를 구현하세요.
@@ -41,13 +44,13 @@ public class CsvStudents implements Students {
             br = new BufferedReader(new FileReader(csv));
             while ((line = br.readLine()) != null) {
                 String[] lineArr = line.split(",");
-                seq.add(Integer.valueOf(lineArr[0]));
-                name.add(lineArr[1]);
+                Student student = new Student(Integer.valueOf(lineArr[0]),lineArr[1]);
+                students.add(student);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+           e.printStackTrace();
         } finally {
             try {
                 if (br != null) {
@@ -61,7 +64,7 @@ public class CsvStudents implements Students {
 
     @Override
     public Collection<Student> findAll() {
-        return null;
+        return students;
     }
 
     /**
@@ -70,6 +73,10 @@ public class CsvStudents implements Students {
      */
     @Override
     public void merge(Collection<Score> scores) {
-
+        int number = 0;
+        for(Score sc : scores){
+            students.get(number).setScore(sc);
+            number++;
+        }
     }
 }

@@ -10,10 +10,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class CsvScores implements Scores {
+    private List<Score> score = new ArrayList<>();
     private List<Integer> seq = new ArrayList<>();
-    private List<Integer> score = new ArrayList<>();
     private static CsvScores csvScores = null;
-    private CsvScores(){}
+    public CsvScores(){}
+
+    public List<Score> getScore() {
+        return score;
+    }
 
     /** TODO 2 :
      * Java Singleton 패턴으로 getInstance() 를 구현하세요.
@@ -36,8 +40,9 @@ public class CsvScores implements Scores {
             br = new BufferedReader(new FileReader(csv));
             while ((line = br.readLine()) != null) {
                 String[] lineArr = line.split(",");
+                Score scores = new Score(Integer.valueOf(lineArr[0]),Integer.valueOf(lineArr[1]));
+                score.add(scores);
                 seq.add(Integer.valueOf(lineArr[0]));
-                score.add(Integer.valueOf(lineArr[1]));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -57,6 +62,7 @@ public class CsvScores implements Scores {
 
     @Override
     public List<Score> findAll() {
-        return null;
+
+        return score;
     }
 }

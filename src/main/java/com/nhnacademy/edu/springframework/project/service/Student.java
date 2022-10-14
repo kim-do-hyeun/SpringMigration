@@ -1,11 +1,12 @@
 package com.nhnacademy.edu.springframework.project.service;
 
 import com.nhnacademy.edu.springframework.project.repository.Score;
+import java.util.List;
 
 public class Student {
     private final int seq;
     private final String name;
-    private Score score;
+    private int score;
 
     public Student(int seq, String name) {
         this.seq = seq;
@@ -13,13 +14,20 @@ public class Student {
     }
 
     public void setScore(Score score) {
-        this.score = score;
+        this.score = score.getScore();
     }
 
-    public Score getScore(){
-        return this.score;
+    public int getScore() {
+        return score;
     }
 
+    public boolean isFail(){
+        if(this.score >60){
+            return true;
+        }else{
+            return false;
+        }
+    }
     @Override
     public String toString() {
         return "Student{" +
