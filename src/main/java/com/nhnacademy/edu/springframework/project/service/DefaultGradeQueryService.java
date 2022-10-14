@@ -1,8 +1,15 @@
 package com.nhnacademy.edu.springframework.project.service;
 
+import com.nhnacademy.edu.springframework.project.repository.CsvScores;
+import com.nhnacademy.edu.springframework.project.repository.CsvStudents;
 import com.nhnacademy.edu.springframework.project.repository.Score;
 
+import com.nhnacademy.edu.springframework.project.repository.Scores;
+import com.nhnacademy.edu.springframework.project.repository.Students;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DefaultGradeQueryService implements GradeQueryService {
 
@@ -18,12 +25,23 @@ public class DefaultGradeQueryService implements GradeQueryService {
         //
         // Hint. CsvStudents 클래스의 findAll() 이 있네요? 적절히 필터링하고 찾아오면 되겠죠?
         //
-        return null;
+        Students studentRepository = CsvStudents.getInstance();
+        List<Student> studentsList = studentRepository.findAll().stream().filter(x->x.getName().equals(name)).collect(Collectors.toList());
+        List<Score> scoreList = new ArrayList<>();
+
+        for(int i=0; i<studentsList.size(); i++){
+            scoreList.add(new Score(studentsList.get(i).getSeq(), studentsList.get(i).getScore()));
+        }
+
+        return scoreList;
     }
 
     @Override
     public Score getScoreByStudentSeq(int seq) {
         // TODO 6 : 학번으로 점수를 반환합니다. seq 인자가 학번입니다.
-        return null;
+        Students studentRepository = CsvStudents.getInstance();
+        List<Student> students = studentRepository.findAll().stream().filter(x->x.getSeq()==seq).collect(Collectors.toList());
+        Score score = new Score(students.get(0).getSeq(),students.get(0).getScore());
+        return score;
     }
 }

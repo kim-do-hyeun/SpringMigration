@@ -1,15 +1,14 @@
 package com.nhnacademy.edu.springframework.project;
 
-import com.nhnacademy.edu.springframework.project.repository.CsvScores;
-import com.nhnacademy.edu.springframework.project.repository.CsvStudents;
-import com.nhnacademy.edu.springframework.project.repository.Scores;
+import com.nhnacademy.edu.springframework.project.repository.Score;
 import com.nhnacademy.edu.springframework.project.service.CsvDataLoadService;
 import com.nhnacademy.edu.springframework.project.service.DataLoadService;
+import com.nhnacademy.edu.springframework.project.service.DefaultGradeQueryService;
 import com.nhnacademy.edu.springframework.project.service.DefaultStudentService;
 import com.nhnacademy.edu.springframework.project.service.Student;
 
 import java.util.Collection;
-import java.util.Iterator;
+import java.util.List;
 
 public class Main {
 
@@ -24,6 +23,14 @@ public class Main {
 
         Collection<Student> orderedStudents = studentService.getStudentsOrderByScore();
         System.out.println(orderedStudents);
+
+        DefaultGradeQueryService defaultGradeQueryService = new DefaultGradeQueryService();
+        List<Score> scoreList = defaultGradeQueryService.getScoreByStudentName("A");
+        System.out.println(scoreList);
+
+        Score score = defaultGradeQueryService.getScoreByStudentSeq(11);
+        System.out.println(score);
+
 
     }
 }
